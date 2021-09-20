@@ -1,37 +1,38 @@
 class VendingMachine
   def initialize
     puts "OK"
+    @total = 0
+    @juice = {
+      name: "coke",
+      price: 120,
+      stock: 5
+      }
   end
 
   def total
-    total = 0
-    ary = []
-    ary << 0
-    # total += money
+    @total
   end
 
   def insert(money)
-    ary = []
-
     if money==10 || money==100
-      # yen = money
       puts "insert "+money.to_s+" yen"
-      ary << money
-      puts ary.sum
-      # total
+      @total += money
+      @total
     else
-      puts "refund"
+      puts "refund invalid money"
+      money
     end
-    money
   end
 
-  # def amount
-  #   amount
-  # end
+  def refund
+    puts @total
+    @total = 0
+  end
 
-  # def kei
-  #   kei = 0
-  # end
+  def stock
+    @juice
+  end
+
 end
 
 # vm = VendingMachine.new
@@ -51,3 +52,5 @@ end
 
 # vm.total # => 110と出力される
 
+# 値段	price
+# 名前	name
