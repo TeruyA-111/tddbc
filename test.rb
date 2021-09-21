@@ -2,11 +2,14 @@ class VendingMachine
   def initialize
     puts "OK"
     @total = 0
-    @juice = {
-      name: "coke",
-      price: 120,
-      stock: 5
-      }
+    @juice = [
+      { name: "coke", price: 120, stock: 5 },
+      { name: "Red Bull", price: 200, stock: 5 },
+      { name: "water", price: 100, stock: 5 }
+    ]
+    # @juice =
+    #   { name: "coke", price: 120, stock: 5 }
+    @sale_amount = 0
   end
 
   def total
@@ -31,6 +34,36 @@ class VendingMachine
 
   def stock
     @juice
+  end
+
+  def sale_amount
+    @sale_amount
+  end
+
+  def purchase(idx)
+    juice = @juice[idx]
+    if @total >= juice[:price] && juice[:stock] >= 1
+      puts 'OK'
+      @sale_amount += juice[:price]
+      juice[:stock] -= 1
+      @total -= juice[:price]
+    else
+      puts 'NG'
+      @total
+    end
+  end
+
+  def balance
+    puts @total
+    @total = 0
+  end
+
+  def list
+    @juice.each do |juice|
+      if @total >= juice[:price] && juice[:stock] >= 1
+        puts juice[:name]
+      end
+    end
   end
 
 end
