@@ -3,12 +3,10 @@ class VendingMachine
     puts "OK"
     @total = 0
     @juice = [
-      { name: "coke", price: 120, stock: 5 },
-      { name: "Red Bull", price: 200, stock: 5 },
-      { name: "water", price: 100, stock: 5 }
+      { name: "Coke", price: 120, stock: 5 },
+      { name: "RedBull", price: 200, stock: 5 },
+      { name: "Water", price: 100, stock: 5 }
     ]
-    # @juice =
-    #   { name: "coke", price: 120, stock: 5 }
     @sale_amount = 0
   end
 
@@ -16,14 +14,18 @@ class VendingMachine
     @total
   end
 
+  def acceptable_money
+    [10,50,100,500,1000]
+  end
+
   def insert(money)
-    if money==10 || money==100
-      puts "insert "+money.to_s+" yen"
+    if acceptable_money.include?(money)
       @total += money
-      @total
+      puts money.to_s + " 円を投入しました！"
+      puts "残金: " + @total.to_s
     else
-      puts "refund invalid money"
-      money
+      puts "受付不可能な貨幣を返却します"
+      puts "返却: " + money.to_s
     end
   end
 
@@ -42,15 +44,34 @@ class VendingMachine
 
   def purchase(idx)
     juice = @juice[idx]
-    if @total >= juice[:price] && juice[:stock] >= 1
-      puts 'OK'
-      @sale_amount += juice[:price]
-      juice[:stock] -= 1
-      @total -= juice[:price]
+    if @total >= juice[:price]
+      if juice[:stock] >= 1
+        if idx == 0
+          puts 'さわやかなるひととき♪'
+        elsif idx == 1
+          puts 'もっとがんばれる↑'
+        else
+          puts 'からだにやさしく'
+        end
+        puts juice[:name] + 'お買い上げ!'
+        @sale_amount += juice[:price]
+        juice[:stock] -= 1
+        @total -= juice[:price]
+        puts "残金: " + @total.to_s
+      else
+        puts 'NG'
+        puts '在庫がありません（汗）管理者にご連絡を'
+        @total 
+      end
     else
       puts 'NG'
+      puts 'お金が足りないよ〜'
       @total
     end
+  end
+
+  def message
+    
   end
 
   def balance
@@ -59,11 +80,13 @@ class VendingMachine
   end
 
   def list
+    list = []
     @juice.each do |juice|
       if @total >= juice[:price] && juice[:stock] >= 1
-        puts juice[:name]
+        list << juice[:name]+"!"
       end
     end
+    puts list
   end
 
 end
